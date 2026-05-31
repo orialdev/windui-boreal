@@ -1,8 +1,8 @@
 -- WindUI Boreal
 -- Version: v0.0.1
--- BuildDate: 2026-03-14
+-- BuildDate: 2026-05-31
 -- Description: Roblox UI Library for scripts
--- Repository: https://github.com/orialdev/WindUI-Boreal
+-- Repository: https://github.com/orialdev/windui-boreal
 -- Discord: http://discord.gg/B3dEqP2EX6
 -- License: MIT
 
