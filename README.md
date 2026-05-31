@@ -4,6 +4,8 @@
 
 This fork maintains full compatibility with the original API and structure while introducing various improvements, bug fixes, optimizations, and visual enhancements.
 
+[![WindUI Boreal](https://uibin.orqan.xyz/api/card?id=374c5531-a842-426c-bc90-905eafa936c5\&theme=orange)](https://uibin.orqan.xyz/library/374c5531-a842-426c-bc90-905eafa936c5)
+
 ## Credits
 
 WindUI was originally created by **Footagesus**.
