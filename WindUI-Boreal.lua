@@ -100,7 +100,7 @@ local p=d.Icons[l]
 
 if p and p.Icons and p.Icons[m]then
 return{
-p.Spritesheets[tostring(p.Icons[m].Image)],
+p.Spritesheets[tostring(p.Icons[m].Image)]or tostring(p.Icons[m].Image),
 p.Icons[m],
 }
 elseif p and p[m]and string.find(p[m],"rbxassetid://")then
@@ -177,6 +177,7 @@ if not l and j[2].Parts then
 for r,u in next,j[2].Parts do
 local v=d.Icon(u,g.Type)
 
+if v then
 m("ImageLabel",{
 Size=UDim2.new(1,0,1,0),
 BackgroundTransparency=1,
@@ -191,6 +192,7 @@ ImageRectSize=v[2].ImageRectSize,
 ImageRectOffset=v[2].ImageRectPosition,
 Parent=p,
 })
+end
 end
 end
 
@@ -210,7 +212,8 @@ if not l and j[2].Parts then
 for p,r in next,j[2].Parts do
 local u=d.Icon(r,g.Type)
 
-local v=Instance.New"ImageLabel"
+if u then
+local v=Instance.new"ImageLabel"
 v.Size=UDim2.new(1,0,1,0)
 v.BackgroundTransparency=1
 v.ImageColor3=h[1+p].Color
@@ -219,6 +222,7 @@ v.Image=u[1]
 v.ImageRectSize=u[2].ImageRectSize
 v.ImageRectOffset=u[2].ImageRectPosition
 v.Parent=m
+end
 end
 end
 
@@ -634,7 +638,7 @@ return getValue(r,{[r]=x})
 end
 end
 
-v=getValue(r,p.Themes.Dark)
+v=getValue(r,p.Themes and p.Themes.Dark or nil)
 if v~=nil then
 if typeof(v)=="string"and string.sub(v,1,1)~="#"then
 local z=p.GetThemeProperty(v,p.Themes.Dark)
@@ -648,7 +652,7 @@ end
 
 if x~=nil then
 if typeof(x)=="string"and string.sub(x,1,1)~="#"then
-return p.GetThemeProperty(x,p.Themes.Dark)
+return p.GetThemeProperty(x,p.Themes and p.Themes.Dark or nil)
 else
 return getValue(r,{[r]=x})
 end
@@ -1090,7 +1094,6 @@ J.Parent=H
 elseif string.find(v,"http")then
 local J="WindUI/"..A.."/assets/."..B.."-"..x..".png"
 local L,M=pcall(function()
-task.spawn(function()
 local L=p.Request and p.Request{
 Url=v,
 Method="GET",
@@ -1114,17 +1117,13 @@ end
 writefile(J,L)
 end
 
-
 local M,N=pcall(getcustomasset,J)
 if M then
 H.ImageLabel.Image=N
 else
 warn(string.format("[ WindUI.Creator ] Failed to load custom asset '%s': %s",J,tostring(N)))
 H:Destroy()
-
-return
 end
-end)
 end)
 if not L then
 local N=(identifyexecutor and identifyexecutor())or"Studio"
@@ -1918,6 +1917,7 @@ local aa={}
 
 function aa.New(ab,ac)
 local ad="https://sdkapi-public.luarmor.net/library.lua"
+local HttpService=game:GetService"HttpService"
 
 local ae=loadstring(
 game.HttpGetAsync and game:HttpGetAsync(ad)
@@ -1987,7 +1987,9 @@ end
 local ag=JunkieProtected.ValidateKey{Key=ae}
 if ag=="valid"then
 print"Key is valid! Starting script..."
-load()
+if typeof(load)=="function"then
+pcall(load)
+end
 if _G.JD_IsPremium then
 print"Premium user detected!"
 else
@@ -3379,14 +3381,14 @@ local ad={}
 
 function ab.Enable()
 for ae,af in pairs(ad)do
-af.Enabled=false
+ae.Enabled=false
 end
 ac.Parent=aa(game:GetService"Lighting")
 end
 
 function ab.Disable()
 for ae,af in pairs(ad)do
-af.Enabled=af.enabled
+ae.Enabled=af.enabled
 end
 ac.Parent=nil
 end
@@ -7948,14 +7950,14 @@ ak:Lock()
 end
 
 
-local ax=aj.Tab.UIElements.ContainerFrame
+local ax=aj.Tab and aj.Tab.UIElements and aj.Tab.UIElements.ContainerFrame
 
 function ak.Set(ay,az,aA)
 if ar then
 if not ak.IsFocusing and not ah and(not aA or(aA.UserInputType==Enum.UserInputType.MouseButton1 or aA.UserInputType==Enum.UserInputType.Touch))then
 if aA then
 al=(aA.UserInputType==Enum.UserInputType.Touch)
-ax.ScrollingEnabled=false
+if ax then ax.ScrollingEnabled=false end
 ah=true
 
 local aB=al and aA.Position.X or ab:GetMouseLocation().X
@@ -8000,7 +8002,7 @@ if h then
 am:Disconnect()
 an:Disconnect()
 ah=false
-ax.ScrollingEnabled=true
+if ax then ax.ScrollingEnabled=true end
 
 if aw then aw:Close(false)end
 end
@@ -10602,8 +10604,8 @@ local ai=createKeywordSet(ad.operators)
 local function getHighlight(ak,al)
 local am=ak[al]
 
-if ae[am.."_color"]then
-return ae[am.."_color"]
+if ae[am]then
+return ae[am]
 end
 
 if tonumber(am)then
@@ -11089,7 +11091,6 @@ local aB=ad("Frame",{
 Size=UDim2.new(0,14,0,14),
 AnchorPoint=Vector2.new(0.5,0.5),
 Position=UDim2.new(0.5,0,0,0),
-Parent=HueDragHolder,
 BackgroundColor3=av.Default
 },{
 ad("UIStroke",{
@@ -11511,7 +11512,7 @@ if typeof(J)~="number"then
 J=H
 end
 
-if typeof(J)=="number"then
+if typeof(J)=="number"and av.Transparency and C and B then
 d.BackgroundTransparency=J
 C.BackgroundColor3=Color3.fromHSV(ay,az,aA)
 B.BackgroundColor3=Color3.fromHSV(ay,az,aA)
@@ -11528,7 +11529,7 @@ av:Update(av.Default,av.Transparency)
 
 local function GetRGB()
 local F=Color3.fromHSV(av.Hue,av.Sat,av.Vib)
-return{R=math.floor(F.r*255),G=math.floor(F.g*255),B=math.floor(F.b*255)}
+return{R=math.floor(F.R*255),G=math.floor(F.G*255),B=math.floor(F.B*255)}
 end
 
 
@@ -17122,7 +17123,6 @@ Name="UserIcon",
 },{
 ak("ImageLabel",{
 Image=GetUserThumb(),
-BackgroundTransparency=1,
 Size=UDim2.new(0,42,0,42),
 ThemeTag={
 BackgroundColor3="Text",
@@ -19368,7 +19368,7 @@ Theme=nil,
 Creator=a.c(),
 LocalizationModule=a.d(),
 NotificationModule=a.e(),
-Themes=nil,
+Themes={},
 Transparent=false,
 
 TransparencyValue=0.15,
@@ -19397,7 +19397,10 @@ local af=ad(game:GetService"Players")
 local ag=ad(game:GetService"CoreGui")
 local ai=ad(game:GetService"RunService")
 
-local ak=af.LocalPlayer or nil
+local ak=af.LocalPlayer
+if not ak then
+ak=af.PlayerAdded:Wait()
+end
 
 local al=ae:JSONDecode(a.k())
 if al then
@@ -19512,6 +19515,7 @@ aa.OnThemeChangeFunction=av
 end
 
 function aa.AddTheme(au,av)
+if not aa.Themes then aa.Themes={}end
 aa.Themes[av.Name]=av
 return av
 end
@@ -19534,7 +19538,7 @@ function aa.GetThemes(au)
 return aa.Themes
 end
 function aa.GetCurrentTheme(au)
-return aa.Theme.Name
+return aa.Theme and aa.Theme.Name or nil
 end
 function aa.GetTransparency(au)
 return aa.Transparent or false
