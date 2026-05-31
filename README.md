@@ -13,7 +13,7 @@ https://github.com/Footagesus/WindUI
 
 This project would not exist without the original work provided by Footagesus. Full credit for the core framework, architecture, and underlying systems belongs to the original author.
 
-**Fork Maintainer:**
+**Fork Owner:**
 https://github.com/orialdev
 
 ## Loadstring
@@ -21,3 +21,9 @@ https://github.com/orialdev
 ```luau
 local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/orialdev/WindUI-Boreal/main/WindUI%20Boreal"))()
 ```
+
+## Community
+
+Need help, updates, or announcements?
+
+👉 **[Join our Discord server](https://discord.gg/B3dEqP2EX6)**
